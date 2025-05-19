@@ -1,0 +1,112 @@
+@import "tailwindcss";
+/*sidebar & top #1d2329 */
+
+@theme {
+  --color-text-muted: #8391a2;
+  --color-main-gray: #191e23;
+  --color-secondary-gray: #1d2329;
+  --color-dary-gray-2: #232a31;
+  --color-border-gray: #272f37;
+  --color-font-200: #afb9cf;
+  --color-icon-gray: #afb9cf;
+  --color-hover-bg: #242a31;
+}
+@layer base {
+  .global-t {
+    @apply transition-all duration-300 ease-in cursor-pointer;
+  }
+}
+/* Start Editor */
+.ql-container {
+  @apply min-h-[500px];
+}
+.ql-container {
+  @apply min-h-[500px];
+}
+.ql-toolbar.ql-snow {
+  @apply !border-border-gray;
+}
+
+.ql-picker-label {
+  @apply !text-font-200;
+}
+.ql-snow .ql-stroke {
+  @apply !stroke-font-200;
+}
+
+.ql-container.ql-snow {
+  @apply !border-[#272f37] rounded-b-md;
+}
+/* End Editor */
+
+/* Start Scrollbar */
+.sidebar ::-webkit-scrollbar {
+  @apply w-[8px];
+}
+
+.sidebar ::-webkit-scrollbar-track {
+  @apply rounded-full bg-secondary-gray;
+}
+
+.sidebar ::-webkit-scrollbar-thumb {
+  @apply !rounded-full bg-main-gray;
+}
+/* End Scrollbar */
+
+/* data table theme */
+body {
+  /* override value of backgroundColor, foregroundColor and spacing parameters */
+  --ag-background-color: var(--color-main-gray);
+  --ag-foreground-color: var(--color-font-200);
+  --ag-spacing: 6px;
+  /* use dark scrollbars */
+  /* --ag-browser-color-scheme: dark; */
+}
+option {
+  color: var(--color-icon-gray);
+}
+input {
+  @apply text-font-200 rounded-lg;
+}
+input:focus,
+select:focus {
+  @apply outline-none;
+}
+select, .custom-select {
+  @apply bg-secondary-gray rounded-lg;
+}
+
+.custom-date-picker {
+    appearance: none; /* Removes the default appearance */
+    -webkit-appearance: none; /* For Safari */
+    position: relative;
+    padding: 10px 40px 10px 10px; /* Adds padding to make room for the icon */
+    background-color: transparent; /* Ensures the input's background matches */
+    /* color: #fff; White text color */
+    border: 1px solid var(--color-border-gray); /* White border */
+    border-radius: 5px;
+}
+
+/* This makes the original calendar icon invisible while keeping it clickable */
+.custom-date-picker::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: block;
+    position: absolute;
+    right: 10px;
+    width: 20px;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Custom white icon overlay */
+.custom-date-picker:before {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM7 12h5v5H7z"/></svg>');
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Makes the icon non-clickable but allows the input's functionality */
+}
+.ql-editor.ql-blank::before {
+  @apply !text-font-200;
+}
