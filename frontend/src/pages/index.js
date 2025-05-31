@@ -11,3 +11,8 @@ export {default as CustomerEdit} from "./customer/CustomerEdit"
 // product
 export {default as ProductCategory} from "./product/ProductCategory"
 export {default as ProductCategoryEdit} from "./product/ProductCategoryEdit"
+
+// blogs
+export {default as Create} from "./blog/Create"
+export {default as Edit} from "./blog/Edit"
+export {default as List} from "./blog/List"

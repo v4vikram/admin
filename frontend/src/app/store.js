@@ -8,6 +8,7 @@ import { salesPersonsApi } from '../features/salespersons/SalesPersonsApi';
 import salesPersonsReducer from "../features/salespersons/salesPersonsSlice"
 import { customerApi } from '../features/customer/customerApi';
 import { productApi } from '../features/product/productApi';
+import { blogApi } from '../features/blog/blogApi';
 // import customerReducer from "../features/customer/customerSlice"
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     [salesPersonsApi.reducerPath]: salesPersonsApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
+    [blogApi.reducerPath]: blogApi.reducer,
     auth:authReducer,
     user:userReducer,
     sales:salesPersonsReducer,
@@ -31,4 +33,5 @@ export const store = configureStore({
   .concat(salesPersonsApi.middleware)
   .concat(customerApi.middleware)
   .concat(productApi.middleware)
+  .concat(blogApi.middleware)
 });

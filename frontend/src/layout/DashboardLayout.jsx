@@ -15,7 +15,7 @@ const DashboardLayout = ({ children }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       const token = localStorage.getItem("userAuthToken");
-      console.log("token", token);
+      // console.log("token", token);
       if (token && !isTokenValid(token)) {
         dispatch(logout());
         toast.info("Session expired. Please login again.");

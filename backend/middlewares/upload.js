@@ -14,11 +14,11 @@ const createUploadPath = (folderPath) => {
 // Storage config with dynamic folder based on field name
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let folder = "uploads/products";
+    let folder = "uploads/";
 
     // Choose sub-folder based on field name
-    if (file.fieldname === "FeaturedImage") {
-      folder += "/featured";
+    if (file.fieldname === "featuredImage") {
+      folder += "blogs/featured";
     } else if (file.fieldname === "featureImages") {
       folder += "/features";
     } else if (file.fieldname === "image") {
@@ -33,7 +33,11 @@ const storage = multer.diskStorage({
     const name = path.basename(file.originalname, ext);
     const uniqueSuffix = Date.now();
     cb(null, `${name}-${uniqueSuffix}${ext}`);
-  }
+  },
+    limits: {
+    fileSize: 25 * 1024 * 1024,   // ✅ Max file size: 25MB
+    fieldSize: 25 * 1024 * 1024,  // ✅ Max text field size: 25MB (e.g., large React Quill content)
+  },
 });
 
 // Optional file type filter
@@ -48,6 +52,10 @@ const fileFilter = (req, file, cb) => {
 // Export multer instance
 const upload = multer({
   storage,
+   limits: {
+    fileSize: 25 * 1024 * 1024,   // ✅ Max file size: 25MB
+    fieldSize: 25 * 1024 * 1024,  // ✅ Max text field size: 25MB (e.g., large React Quill content)
+  },
   fileFilter
 });
 

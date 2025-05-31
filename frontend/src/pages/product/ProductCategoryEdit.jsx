@@ -34,6 +34,7 @@ const ProductCategory = () => {
   const [filePreview, setFilePrview] = useState(null);
   const [subCatFile, setSubCatFile] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [imageUrl, setImageUrl] = useState();
 
   const [createCategory] = useCreateCategoryMutation();
   const [createSubCategory] = useCreateSubCategoryMutation();
@@ -45,8 +46,6 @@ const ProductCategory = () => {
     isLoading: isSubCategoriesLoading,
     error: subCategoriesError,
   } = useGetSubCatListQuery();
-
-  console.log("filePreview", filePreview);
 
   const rowData = (categories || []).map((category, index) => ({
     _id: category._id,
@@ -154,6 +153,12 @@ const ProductCategory = () => {
   useEffect(() => {
     setCategories(data?.allCat);
   }, [data]);
+
+  useEffect(() => {
+    setImageUrl(category?.category?.categoryImage);
+  }, [category]);
+
+  console.log("imageUrl", imageUrl);
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -214,7 +219,11 @@ const ProductCategory = () => {
                 </div>
 
                 <div className="mb-4">
-                  <SingleImageUploader setFileName={setCatFile} setFilePrview={setFilePrview}/>
+                  <SingleImageUploader
+                    setFileName={setCatFile}
+                    setFilePrview={setFilePrview}
+                    initialImage={`http://localhost:9000/uploads/products/${imageUrl}`}
+                  />
                 </div>
 
                 <button
@@ -276,7 +285,9 @@ const ProductCategory = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="parentCatId">Category</label>
+                  <label htmlFor="parentCatId" className="text-font-200">
+                    Category
+                  </label>
 
                   <Field
                     as="select"
@@ -284,7 +295,7 @@ const ProductCategory = () => {
                     className="custom-select w-full border p-2 rounded-lg border-border-gray"
                     disabled={categories ? false : true}
                   >
-                    <option value={"Parent Category"}>
+                    <option value={"Parent Category"} className="text-font-200">
                       Select Parent Category
                     </option>
                     {categories?.map((opt) => (

@@ -64,7 +64,10 @@ const SearchBar = () => {
                 setShowSuggestions(false);
               }}
             >
-              {item}
+              {
+                console.log("item", item)
+              }
+              {item.productName}
             </li>
           ))}
         </ul>

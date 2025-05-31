@@ -4,6 +4,7 @@ import {
   ChartArea,
   ChartColumnDecreasingIcon,
   List,
+  NotebookPen,
   User,
   UsersRound,
 } from "lucide-react";
@@ -17,6 +18,17 @@ const Sidebar = () => {
           Dashboard
         </Link>
 
+        <SidebarDropdown
+          label="Blogs"
+          Icon={NotebookPen}
+          items={[
+            { label: "Create", href: "/dashboard/blog/create" },
+            // { label: "Edit", href: "/dashboard/blog/edit" },
+            { label: "List", href: "/dashboard/blog/list" },
+            // { label: "Category", href: "/dashboard/blog/category" },
+            // { label: "Product Tags", href: "/dashboard/product/tags" },
+          ]}
+        />
         <SidebarDropdown
           label="Products"
           Icon={List}

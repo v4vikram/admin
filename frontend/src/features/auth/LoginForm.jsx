@@ -95,7 +95,7 @@ const LoginForm = () => {
             </button>
             <div className="flex items-center justify-between">
               <div>
-                <span>Create Account </span>
+                <span className="text-font-200">Create Account? </span>
                 <Link
                   to={"/register"}
                   className="text-font-200"

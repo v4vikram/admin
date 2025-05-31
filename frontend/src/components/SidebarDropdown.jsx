@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Circle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const SidebarDropdown = ({ label, Icon, items = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,14 +23,14 @@ const SidebarDropdown = ({ label, Icon, items = [] }) => {
       {isOpen && (
         <div className="py-2 space-y-2">
           {items.map((item, i) => (
-            <a
+            <Link
               key={i}
-              href={item.href}
+              to={item.href}
               className=" text-[#afb9cf] hover:text-blue-400 global-t px-2 flex items-center gap-4"
             >
               <Circle size={11} className="text-icon-gray" />
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
       )}

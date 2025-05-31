@@ -12,7 +12,7 @@ const Editor = ({ value, onChange, modules, formats }) => {
         onChange={onChange}
         modules={modules}
         formats={formats}
-        placeholder="Write your product content..."
+        placeholder="Write your content..."
       />
     </>
   );

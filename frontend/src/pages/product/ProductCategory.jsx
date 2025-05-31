@@ -88,9 +88,7 @@ const ProductCategory = () => {
       field: "action",
       cellRenderer: (params) => (
         <div className="space-x-2 flex items-center">
-          <Link
-            to={`/dashboard/product/category/edit/${params.data._id}`}
-          >
+          <Link to={`/dashboard/product/category/edit/${params.data._id}`}>
             <PenIcon className="w-4 h-4" />
           </Link>
           <button
@@ -272,7 +270,9 @@ const ProductCategory = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="parentCatId">Category</label>
+                  <label htmlFor="parentCatId" className="text-font-200">
+                    Category
+                  </label>
 
                   <Field
                     as="select"
@@ -280,7 +280,7 @@ const ProductCategory = () => {
                     className="custom-select w-full border p-2 rounded-lg border-border-gray"
                     disabled={categories ? false : true}
                   >
-                    <option value={"Parent Category"}>
+                    <option value={"Parent Category"} className="text-font-200">
                       Select Parent Category
                     </option>
                     {categories?.map((opt) => (
