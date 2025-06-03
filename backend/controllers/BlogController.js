@@ -2,9 +2,8 @@ const Blog = require("../models/blogModel");
 const fs = require("fs");
 const path = require("path");
 
-
 exports.create = async (req, res) => {
-   console.log("req.body, featuredImage", req.body)
+  console.log("req.body, featuredImage", req.body);
   try {
     const {
       title,
@@ -19,7 +18,7 @@ exports.create = async (req, res) => {
 
     const featuredImage = req?.files ? req?.files[0]?.filename : null;
 
-    console.log("req.body, featuredImage", req?.files)
+    console.log("req.body, featuredImage", req?.files);
     // return
     const newBlog = new Blog({
       title,
@@ -46,21 +45,20 @@ exports.create = async (req, res) => {
 };
 
 exports.single = async (req, res) => {
-  const id = "6839953311f69ff46a97e1fa"
+  const id = "6839953311f69ff46a97e1fa";
   try {
-    const blog = await Blog.findById(id);
+    // const blog = await Blog.findById(id);
+    const blog = await Blog.findOne({ _id: id, status: "published" });
     console.log("All Blog:", blog);
 
     if (!blog || blog.length === 0) {
-      return res.status(404).json({ message: "No Blog found" });
+      return res.status(201).json({ message: "No Blog in Draft" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Blog fetched successfully",
-       blog,
-      });
+    res.status(200).json({
+      message: "Blog fetched successfully",
+      blog,
+    });
   } catch (error) {
     console.error("Error fetching Blog:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -75,12 +73,10 @@ exports.index = async (req, res) => {
       return res.status(404).json({ message: "No Blogs found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Blogs fetched successfully",
-       blogs:blogs
-      });
+    res.status(200).json({
+      message: "Blogs fetched successfully",
+      blogs: blogs,
+    });
   } catch (error) {
     console.error("Error fetching Blogs:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -94,12 +90,10 @@ exports.edit = async (req, res) => {
       return res.status(404).json({ message: "No Blog found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Blog fetched successfully",
-       blog
-      });
+    res.status(200).json({
+      message: "Blog fetched successfully",
+      blog,
+    });
   } catch (error) {
     console.error("Error fetching Blog:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -119,11 +113,10 @@ exports.update = async (req, res) => {
     } = req.body;
 
     // Handle file upload (featuredImage)
-    const featuredImage = req?.files && req.files.length > 0
-      ? req.files[0].filename
-      : undefined; // Use undefined to skip update if no new image is uploaded
+    const featuredImage =
+      req?.files && req.files.length > 0 ? req.files[0].filename : undefined; // Use undefined to skip update if no new image is uploaded
 
-      console.log("featuredImage", req.files)
+    console.log("featuredImage", req.files);
     // Build update object dynamically
     const updateData = {
       title,
@@ -169,7 +162,11 @@ exports.delete = async (req, res) => {
 
     // Delete associated featuredImage file if it exists
     if (blog.featuredImage) {
-      const imagePath = path.join(__dirname, "../uploads/blogs/featured", blog.featuredImage);
+      const imagePath = path.join(
+        __dirname,
+        "../uploads/blogs/featured",
+        blog.featuredImage
+      );
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath); // remove file
       }
@@ -183,6 +180,5 @@ exports.delete = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 

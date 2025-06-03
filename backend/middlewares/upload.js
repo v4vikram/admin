@@ -14,14 +14,20 @@ const createUploadPath = (folderPath) => {
 // Storage config with dynamic folder based on field name
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    // console.log("file", file)
     let folder = "uploads/";
 
     // Choose sub-folder based on field name
     if (file.fieldname === "featuredImage") {
       folder += "blogs/featured";
-    } else if (file.fieldname === "featureImages") {
+    } 
+    if (file.fieldname === "categoryImage") {
+      folder += "blogs/category";
+    } 
+    else if (file.fieldname === "featureImages") {
       folder += "/features";
-    } else if (file.fieldname === "image") {
+    } 
+    else if (file.fieldname === "image") {
       folder += "/category";
     }
 
