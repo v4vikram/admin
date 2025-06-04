@@ -45,10 +45,12 @@ exports.create = async (req, res) => {
 };
 
 exports.single = async (req, res) => {
-  const id = "6839953311f69ff46a97e1fa";
+  // const id = "6839953311f69ff46a97e1fa";
+  const slug = "time-attendance-access-control-system-a-smart-way-to-manage-your-premises";
   try {
     // const blog = await Blog.findById(id);
-    const blog = await Blog.findOne({ _id: id, status: "published" });
+    // const blog = await Blog.findOne({ _id: id, status: "published" });
+    const blog = await Blog.findOne({ slug: slug, status: "published" });
     console.log("All Blog:", blog);
 
     if (!blog || blog.length === 0) {
