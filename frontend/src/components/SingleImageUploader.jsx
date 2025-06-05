@@ -13,6 +13,7 @@ const SingleImageUploader = ({ setFileName, setFilePrview, initialImage }) => {
         file: newFile,
         preview: URL.createObjectURL(newFile),
       };
+      console.log("fileWithPreview", fileWithPreview)
       setFile(fileWithPreview); // Set the file with preview
       setFilePrview(fileWithPreview);
       setFileName(newFile);

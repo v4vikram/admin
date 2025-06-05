@@ -4,13 +4,14 @@ import Sidebar from "../components/Sidebar";
 import { useDispatch } from "react-redux";
 import { isTokenValid } from "../utils/auth";
 import { logout } from "../features/auth/authSlice";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
 const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,7 +20,7 @@ const DashboardLayout = ({ children }) => {
       if (token && !isTokenValid(token)) {
         dispatch(logout());
         toast.info("Session expired. Please login again.");
-        Navigate("/login");
+        navigate("/login");
       }
     }, 3600); // check every 1 hour
 

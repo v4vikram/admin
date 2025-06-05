@@ -8,9 +8,10 @@ import {
 } from "../../components";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { CirclePlus } from "lucide-react";
-import { productCreateSchema } from "../../utils/validationSchemas";
+import { createBlogValidationSchema, productCreateSchema } from "../../utils/validationSchemas";
 import { useCreateBlogMutation } from "../../features/blog/blogApi";
 import { toast } from "react-toastify";
+import seoFriendlySlug from "../../utils/seoFriendlySlug";
 
 const productCategory = [
   {
@@ -56,11 +57,13 @@ const productCategory = [
 ];
 
 const Create = () => {
+  const [slugUsingTitle, setSlugUsingTitle] = useState("");
   const [subCategories, setSubCategories] = useState([]);
   const [fileName, setFileName] = useState(null);
-  const [createBlog] = useCreateBlogMutation();
+  const [createBlog, { isLoading, isSuccess, isError, error }] =
+    useCreateBlogMutation();
 
-  console.log("fileName", fileName)
+  console.log("slugUsingTitle", slugUsingTitle);
 
   const initialValues = {
     title: "",
@@ -70,7 +73,7 @@ const Create = () => {
     subCategory: "",
     keywords: "",
     slug: "",
-    status: "",
+    status: "draft",
     featuredImage: null,
   };
 
@@ -84,15 +87,26 @@ const Create = () => {
     formData.append("subCategory", values.subCategory);
     formData.append("keywords", values.keywords);
     formData.append("slug", values.slug);
+    formData.append("status", values.status);
 
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}:`, pair[1]);
+    // }
 
     try {
-      const data = await createBlog(formData);
-      toast.success("Blog Created Successfully");
+      const data = await createBlog(formData).unwrap();
+
+     console.log("data==>", isLoading, isSuccess, isError, error, data);
+
+      if (isSuccess) {
+        toast.success("Blog Created Successfully");
+      }
+      if(error){
+        toast.error(`${error?.data?.error}`);
+      }
+     
     } catch (err) {
+       toast.error(`${err?.data?.error}`);
       console.error("Failed to submit blog:", err);
     }
   };
@@ -104,7 +118,7 @@ const Create = () => {
   }, []);
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={createBlogValidationSchema} >
       {({ values, setFieldValue }) => {
         const handleMainCategoryChange = (e) => {
           const selected = e.target.value;
@@ -130,6 +144,16 @@ const Create = () => {
                       name="title"
                       placeholder="Title"
                       className="w-full border p-2 rounded mb-0 border-border-gray"
+                      value={values?.title}
+                      onChange={(e) => {
+                        const title = e.target.value;
+                        setFieldValue("title", title);
+
+                        const generatedSlug = seoFriendlySlug(title);
+                        setFieldValue("slug", generatedSlug); // <-- set slug in Formik here
+
+                        // setSlugUsingTitle(title); // optional, you can keep this or remove it if not used elsewhere
+                      }}
                     />
                     <ErrorMessage
                       name="title"
@@ -241,8 +265,11 @@ const Create = () => {
                     <Field
                       name="slug"
                       placeholder="Slug (URL-friendly)"
+                      value={values.slug}
                       className="w-full border p-2 rounded border-border-gray"
+                      disabled
                     />
+
                     <ErrorMessage
                       name="slug"
                       component="div"
@@ -259,10 +286,8 @@ const Create = () => {
                       name="status"
                       className="w-full border p-2 rounded border-border-gray"
                     >
-                      <option value="">Status</option>
-                      <option value="published">Published</option>
                       <option value="draft">Draft</option>
-                      <option value="pending">Pending</option>
+                      <option value="published">Published</option>
                     </Field>
                     <ErrorMessage
                       name="status"
@@ -270,15 +295,14 @@ const Create = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-main-gray border border-border-gray rounded mt-2 cursor-pointer"
+                  >
+                    Create
+                  </button>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                className="px-4 py-2 bg-secondary-gray rounded mt-2 cursor-pointer"
-              >
-                Create
-              </button>
             </Form>
           </div>
         );

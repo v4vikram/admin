@@ -11,7 +11,6 @@ import {
   useDeleteBlogByIdMutation,
   useGetAllBlogQuery,
 } from "../../features/blog/blogApi";
-import { baseUrl } from "../../utils/variables";
 import { toast } from "react-toastify";
 
 const List = () => {
@@ -56,7 +55,7 @@ const List = () => {
         params.value ? (
           <div className="flex items-center justify-center w-full h-full overflow-hidden">
             <img
-              src={`${baseUrl}uploads/blogs/featured/${params.value}`}
+              src={params.value}
               alt="blog-img"
               className="w-12 h-10 object-contain rounded"
             />

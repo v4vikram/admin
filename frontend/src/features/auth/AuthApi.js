@@ -1,10 +1,10 @@
-// src/features/auth/authApi.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BASE_URL } from '../../utils/variables';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:9000/api/user', // adjust to your backend
+    baseUrl: `${BASE_URL}/api/user`, // adjust to your backend
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({

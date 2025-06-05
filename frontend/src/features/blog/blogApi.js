@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BASE_URL } from "../../utils/variables";
 
 export const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:9000/api/blog/",
+    baseUrl: `${BASE_URL}/api/blog`
   }),
 
   // 👇 This defines your tag for cache management

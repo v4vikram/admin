@@ -61,8 +61,9 @@ const productCategory = [
   },
 ];
 
+
 const Create = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const [subCategories, setSubCategories] = useState([]);
   const [fileName, setFileName] = useState(null);
   const [createBlog] = useCreateBlogMutation();
@@ -70,13 +71,9 @@ const Create = () => {
 
   const [initialFiles, setInitialFiles] = useState([]);
 
-  const {
-    data: blog,
-    isLoading,
-    error,
-  } = useEditBlogByIdQuery(id);
+  const { data: blog, isLoading, error } = useEditBlogByIdQuery(id);
 
-  console.log("initialFiles=>", fileName);
+  console.log("blog=>", blog?.blog?.featuredImage);
 
   const initialValues = {
     title: blog?.blog?.title,
@@ -100,13 +97,14 @@ const Create = () => {
     formData.append("subCategory", values.subCategory);
     formData.append("keywords", values.keywords);
     formData.append("slug", values.slug);
+    formData.append("status", values.status);
 
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);
     }
 
     try {
-      const data = await updateBlogById({id, data:formData}).unwrap();
+      const data = await updateBlogById({ id, data: formData }).unwrap();
       toast.success("Blog Updated Successfully");
     } catch (err) {
       console.error("Failed to submit blog:", err);
@@ -132,6 +130,25 @@ const Create = () => {
     };
 
     loadImage();
+  }, [blog]);
+
+  useEffect(() => {
+    if (blog?.blog?.mainCategory) {
+      const found = productCategory.find(
+        (cat) => cat.category === blog.blog.mainCategory
+      );
+
+      console.log("found?.subCategories", found?.subCategories);
+      setSubCategories(found?.subCategories || []);
+    }
+    // if (blog?.blog?.mainCategory && blog?.blog?.subCategory) {
+    //   const found = productCategory.find(
+    //     (cat) => cat.category === blog.blog.mainCategory
+    //   );
+
+    //   console.log("found?.subCategories", found?.subCategories)
+    //   setSubCategories(found?.subCategories || []);
+    // }
   }, [blog]);
 
   if (isLoading) return <div>Loading...</div>;
@@ -225,12 +242,7 @@ const Create = () => {
                     <SingleImageUploader
                       setFileName={setFileName}
                       setFilePrview={() => {}}
-                      initialImage={
-                        blog?.blog?.featuredImage
-                          ? `http://localhost:9000/uploads/blogs/featured/${initialFiles[0]?.name}`
-                          : null
-                      }
-                    />
+                      initialImage={blog?.blog?.featuredImage ? blog?.blog?.featuredImage : "test"}/>
                   </div>
 
                   <label>Main Category</label>
@@ -301,7 +313,6 @@ const Create = () => {
                       <option value="">Status</option>
                       <option value="published">Published</option>
                       <option value="draft">Draft</option>
-                      <option value="pending">Pending</option>
                     </Field>
                     <ErrorMessage
                       name="status"
@@ -309,15 +320,14 @@ const Create = () => {
                       className="text-red-500 text-sm"
                     />
                   </div>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-main-gray border border-border-gray rounded mt-2 cursor-pointer"
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
-
-              <button
-                type="submit"
-                className="px-4 py-2 bg-secondary-gray rounded mt-2 cursor-pointer"
-              >
-                Create
-              </button>
             </Form>
           </div>
         );

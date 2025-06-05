@@ -25,7 +25,7 @@ const Sidebar = () => {
             { label: "Create", href: "/dashboard/blog/create" },
             // { label: "Edit", href: "/dashboard/blog/edit" },
             { label: "List", href: "/dashboard/blog/list" },
-            // { label: "Category", href: "/dashboard/blog/category" },
+            { label: "Category", href: "/dashboard/blog/category" },
             // { label: "Product Tags", href: "/dashboard/product/tags" },
           ]}
         />

@@ -7,6 +7,7 @@ import ProtectedRoute from "./route/ProtectedRoute";
 import { useSelector } from "react-redux";
 import PublicRoute from "./route/PublicRoute";
 import {
+  Category,
   Create,
   CreateProduct,
   CustomerEdit,
@@ -71,6 +72,7 @@ function App() {
               <Route path="edit" element={<Edit />} />
               <Route path="edit/:id" element={<Edit />} />
               <Route path="list" element={<List />} />
+              <Route path="category" element={<Category />} />
                {/* <Route path="edit/:id" element={<BlogEdit />} /> */}
               {/* <Route path="delete/:id" element={<BlogDelete />} /> */}
               {/* <Route path="update/:id" element={<BlogUpdate />} />  */}

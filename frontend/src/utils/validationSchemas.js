@@ -2,6 +2,9 @@
 
 import * as Yup from "yup";
 
+export const createBlogValidationSchema = Yup.object({
+  title: Yup.string().required("Required"),
+});
 export const registerValidationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
   email: Yup.string()
