@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { useRegisterUserMutation } from "./AuthApi";
+import { useRegisterUserMutation } from "./authApi";
 import { registerValidationSchema } from "../../utils/validationSchemas";
 import { toast } from "react-toastify";
 import loginBg from "../../assets/img/svg/loggin-blue-bg.svg";
