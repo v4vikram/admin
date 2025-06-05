@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 
 exports.create = async (req, res) => {
-  console.log("req.body, featuredImage", req.body);
   try {
     const {
       title,
@@ -16,10 +15,31 @@ exports.create = async (req, res) => {
       status,
     } = req.body;
 
-    const featuredImage = req?.files ? req?.files[0]?.filename : null;
+    // const featuredImage = req?.files ? req?.files[0]?.filename : null;
 
-    console.log("req.body, featuredImage", req?.files);
-    // return
+    const existing = await Blog.findOne({ slug });
+    if (existing) {
+      return res.status(400).json({ error: "Slug already exists." });
+    }
+    console.log("req.files==>", req.files )
+    if (!req.files || !req.files.length) {
+      return res.status(400).json({ error: "Featured Image Required" });
+    }
+
+    const file = req.files?.[0];
+
+    if (!file || !file.buffer) {
+      return res.status(400).json({ error: "Featured Image Required" });
+    }
+
+    return
+    const base64Image = file.buffer.toString("base64");
+    const mimeType = file.mimetype;
+
+    const base64String = `data:${mimeType};base64,${base64Image}`;
+    // console.log("file", base64String)
+
+    // return;
     const newBlog = new Blog({
       title,
       description,
@@ -29,13 +49,13 @@ exports.create = async (req, res) => {
       keywords,
       slug,
       status,
-      featuredImage,
+      featuredImage: base64String,
     });
 
     await newBlog.save();
 
     res.status(201).json({
-      message: "Blog created successfully",
+      message: "Blog created1 successfully",
       blog: newBlog,
     });
   } catch (error) {
@@ -46,7 +66,8 @@ exports.create = async (req, res) => {
 
 exports.single = async (req, res) => {
   // const id = "6839953311f69ff46a97e1fa";
-  const slug = "time-attendance-access-control-system-a-smart-way-to-manage-your-premises";
+  const slug =
+    "time-attendance-access-control-system-a-smart-way-to-manage-your-premises";
   try {
     // const blog = await Blog.findById(id);
     // const blog = await Blog.findOne({ _id: id, status: "published" });
@@ -182,5 +203,3 @@ exports.delete = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-

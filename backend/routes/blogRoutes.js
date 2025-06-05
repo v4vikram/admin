@@ -6,11 +6,12 @@ const router = express.Router();
 const BlogController = require("../controllers/BlogController");
 const BlogCatController = require("../controllers/BlogCatController")
 const upload = require("../middlewares/upload");
+const uploadMemory = require("../middlewares/uploadMemory");
 
 
 
 
-router.post("/create", upload.any(), BlogController.create);
+router.post("/create", uploadMemory.any(), BlogController.create);
 router.get("/list", BlogController.index);
 router.get("/edit/:id", BlogController.edit);
 router.put("/edit/:id",  upload.any(), BlogController.update);

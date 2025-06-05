@@ -7,11 +7,14 @@ const blogSchema = new mongoose.Schema({
   description: String,
   content: String,
   featuredImage:String,
+  // mainCategory: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+  // subCategory: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+
   keywords: String,
   slug: { type: String, unique: true },
   status: {
     type: String,
-    enum: ["published", "draft"],
+    enum: ["published", "draft", "pending"],
     default: "draft",
   },
   featuredImage: String,
